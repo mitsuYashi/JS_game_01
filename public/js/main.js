@@ -2,31 +2,32 @@ let sanmoku_narabe = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 let mark = 0;
 let winner = 0;
 
-function win(mark){
-    if (sanmoku_narabe[0] == mark && sanmoku_narabe[1] == mark && sanmoku_narabe[2] == mark) {
-        winner = mark;
+function win(str, str2) {
+
+    let winner = 0;
+
+    if (str[0] == str2 && str[1] == str2 && str[2] == str2) {
+        winner = str2;
+    } else if (str[3] == str2 && str[4] == str2 && str[5] == str2) {
+        winner = str2;
+    } else if (str[6] == str2 && str[7] == str2 && str[8] == str2) {
+        winner = str2;
+    } else if (str[0] == str2 && str[3] == str2 && str[6] == str2) {
+        winner = str2;
+    } else if (str[1] == str2 && str[4] == str2 && str[7] == str2) {
+        winner = str2;
+    } else if (str[2] == str2 && str[5] == str2 && str[8] == str2) {
+        winner = str2;
+    } else if (str[0] == str2 && str[4] == str2 && str[8] == str2) {
+        winner = str2;
+    } else if (str[2] == str2 && str[4] == str2 && str[6] == str2) {
+        winner = str2;
+    } else {
+        winner = 0;
     }
-    if (sanmoku_narabe[3] == mark && sanmoku_narabe[4] == mark && sanmoku_narabe[5] == mark) {
-        winner = mark;
-    }
-    if (sanmoku_narabe[6] == mark && sanmoku_narabe[7] == mark && sanmoku_narabe[8] == mark) {
-        winner = mark;
-    }
-    if (sanmoku_narabe[0] == mark && sanmoku_narabe[3] == mark && sanmoku_narabe[6] == mark) {
-        winner = mark;
-    }
-    if (sanmoku_narabe[1] == mark && sanmoku_narabe[4] == mark && sanmoku_narabe[7] == mark) {
-        winner = mark;
-    }
-    if (sanmoku_narabe[2] == mark && sanmoku_narabe[5] == mark && sanmoku_narabe[8] == mark) {
-        winner = mark;
-    }
-    if (sanmoku_narabe[0] == mark && sanmoku_narabe[4] == mark && sanmoku_narabe[8] == mark) {
-        winner = mark;
-    }
-    if (sanmoku_narabe[2] == mark && sanmoku_narabe[4] == mark && sanmoku_narabe[6] == mark) {
-        winner = mark;
-    }
+
+    return winner;
+
 }
 
 function markChange(str, i, text) {
@@ -77,7 +78,21 @@ for (let i = 0; i < part.length; i++) {
             markChange(sanmoku_narabe, i, part);
             turn_num++;
 
-            if (turn_num == 9) {
+            win(sanmoku_narabe, mark);
+            console.log(winner);
+            
+            switch (winner) {
+                case 1:
+                    document.querySelector('.game_end').style.display = 'block';
+                    document.querySelector('#result').innerText = `〇の勝ち`;
+                break;
+
+                case -1:
+                    document.querySelector('.game_end').style.display = 'block';
+                    document.querySelector('#result').innerText = `×の勝ち`;
+            }
+
+            if (turn_num == 9 || winner != 0) {
                 document.querySelector('.game_end').style.display = 'block'
             }
 
