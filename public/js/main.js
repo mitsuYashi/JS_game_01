@@ -1,10 +1,10 @@
 let sanmoku_narabe = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 let mark = 0;
 let winner = 0;
+let circleWin = 0;
+let crossWin = 0;
 
-function win(str, str2) {
-
-    let winner = 0;
+function win(str, str2, winner) {
 
     if (str[0] == str2 && str[1] == str2 && str[2] == str2) {
         winner = str2;
@@ -46,12 +46,13 @@ function markChange(str, i, text) {
 
 }
 
-function nowMark() {
-    
+function arrayChange(str, mark) {
+    for (let i = 0; i < str.length; i++) {
+        str[i] = mark;
+    }
 }
 
 // DOM取得
-
 const game = document.querySelector('.game');
 const part = document.getElementsByClassName('part');
 const mark_turn = document.getElementById('mark_turn');
@@ -74,28 +75,35 @@ for (let i = 0; i < part.length; i++) {
                 sanmoku_narabe[i] = mark;
                 mark_turn.innerText = '〇';
             }
-            console.log(sanmoku_narabe);
+
+            // 勝敗判定
+            switch (win(sanmoku_narabe, mark, winner)) {
+                case 1:
+                    document.querySelector('#result').innerText = `〇の勝ち`;
+                    sanmoku_narabe.fill(mark);
+                    circleWin += 1;
+                    break;
+
+                case -1:
+                    document.querySelector('#result').innerText = `×の勝ち`;
+                    sanmoku_narabe.fill(mark);
+                    crossWin += 1;
+                    break;
+
+                case 0:
+                    document.querySelector('#result').innerText = `ひきわけ`;
+                    break;
+            }
+
             markChange(sanmoku_narabe, i, part);
             turn_num++;
 
-            win(sanmoku_narabe, mark);
-            console.log(winner);
+            if (turn_num == 9 || win(sanmoku_narabe, mark, winner) != 0) {
+                document.querySelector('.game_end').style.display = 'block';
+                document.getElementsByClassName('numWin')[0].innerText = circleWin;
+                document.getElementsByClassName('numWin')[1].innerText = crossWin;
+            }
             
-            switch (winner) {
-                case 1:
-                    document.querySelector('.game_end').style.display = 'block';
-                    document.querySelector('#result').innerText = `〇の勝ち`;
-                break;
-
-                case -1:
-                    document.querySelector('.game_end').style.display = 'block';
-                    document.querySelector('#result').innerText = `×の勝ち`;
-            }
-
-            if (turn_num == 9 || winner != 0) {
-                document.querySelector('.game_end').style.display = 'block'
-            }
-
         }
 
     })

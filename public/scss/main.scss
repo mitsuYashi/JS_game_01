@@ -52,6 +52,19 @@ div.turn p{
         font-size: 2em;
     }
 }
+
+div.player{
+    font-size: 3em;
+    position: absolute;
+    top: 200px;
+    &.circle{
+        left: 100px;
+    }
+    &.cross{
+        right: 100px;
+    }
+}
+
 div.game{
     width: 320px;
     height: 320px;
